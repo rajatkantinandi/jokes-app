@@ -1,25 +1,68 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import { Joke } from "./types";
+import Jokes from "./components/Jokes";
+
+const categories = [
+  "animal",
+  "career",
+  "celebrity",
+  "dev",
+  "fashion",
+  "food",
+  "history",
+  "money",
+  "movie",
+  "music",
+  "political",
+  "religion",
+  "science",
+  "sport",
+  "travel",
+];
 
 function App() {
+  const [selectedCategory, setSelectedCategory] = React.useState(categories[0]);
+  const [jokes, setJokes] = React.useState<Joke[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const fetchJokes = async () => {
+    setIsLoading(true);
+    const response = await fetch(
+      `https://api.chucknorris.io/jokes/search?query=${selectedCategory}`
+    );
+
+    const data = await response.json();
+    setJokes(data.result);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchJokes();
+  }, [selectedCategory]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header>
+        <h1>Jokes app</h1>
+        <hr />
       </header>
-    </div>
+      <section>
+        <h2>Pick a category</h2>
+        <select onChange={(e) => setSelectedCategory(e.target.value)} className="category-select">
+          {categories.map((category) => (
+            <option
+              key={category}
+              value={category}
+              selected={category === selectedCategory}
+            >
+              {category}
+            </option>
+          ))}
+        </select>
+      </section>
+      <Jokes jokes={jokes} isLoading={isLoading} />
+    </main>
   );
 }
 

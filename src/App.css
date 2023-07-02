@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  margin: 10px 30px;
+}
+
+li {
+  list-style-type: none;
+}
+
+blockquote {
+  border-left: 2px solid #61dafb;
+  padding: 5px 10px;
+  background-color: #fee;
+}
+
+.joke a {
+  text-decoration: none;
+  color: #235;
+  font-size: 18px;
+}
+
+.joke blockquote {
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.category-select {
+  width: 400px;
+  font-size: 20px;
+  padding: 5px 10px;
+}
+
+.loading {
+  margin: 20px 30px;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: cursive;
+}
